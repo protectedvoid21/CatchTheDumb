@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     
     private InGameInterface _inGameInterface;
+    private CatchablePool _catchablePool;
 
     private void Awake()
     {
@@ -22,11 +23,39 @@ public class GameManager : MonoBehaviour
     private void GetAllReferences()
     {
         _inGameInterface = FindAnyObjectByType<InGameInterface>();
+        _catchablePool = FindAnyObjectByType<CatchablePool>();
     }
 
-    public void CatchCatchable(PlayerCatchEventArgs value)
+    public void CatchCatchable()
     {
-        print(value.IsCaught ? "Caught an object!" : "Object escaped!");
-        _inGameInterface.ReceiveCatchEvent(value);
+        _catchablePool.CatchCatchable();
+        _inGameInterface.UpdateCatchableCountUI(_catchablePool.RemainingCatchablesCount);
+    }
+    
+    public void ReturnCatchableToPool()
+    {
+        _catchablePool.ReturnCatchableToPool();
+    }
+
+    public void FinishGame()
+    {
+        if (_catchablePool.RemainingCatchablesCount == 0)
+        {
+            WinGame();
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    private void WinGame()
+    {
+        print("Win!");
+    }
+    
+    private void GameOver()
+    {
+        print("Game Over!");
     }
 }

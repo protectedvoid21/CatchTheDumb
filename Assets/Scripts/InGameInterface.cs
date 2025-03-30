@@ -1,37 +1,37 @@
-using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class InGameInterface : MonoBehaviour
 {
-    private int _catchablesLeft;
-    private int _pickedCatchables;
-    
     [SerializeField]
     private TextMeshProUGUI _catchablesLeftText;
     [SerializeField]
-    private TextMeshProUGUI _pickedCatchablesText;
-
-    private Dictionary<string, int> _removedCatchables;
-
+    private TextMeshProUGUI _timerText;
+    [SerializeField]
+    private int _gameDurationInSeconds;
+    
     private void Start()
     {
-        var animalSpawner = FindFirstObjectByType<CatchablesSpawner>();
-        _catchablesLeft = animalSpawner.CatchablesToSpawnCount;
-        _pickedCatchables = 0;
-        _catchablesLeftText.text = _catchablesLeft.ToString();
-        _pickedCatchablesText.text = _pickedCatchables.ToString();
+        var catchablePool = FindFirstObjectByType<CatchablePool>();
+        _catchablesLeftText.text = catchablePool.RemainingCatchablesCount.ToString();
+        
+        StartCoroutine(RunTimer());
+    }
+
+    private IEnumerator RunTimer()
+    {
+        while (_gameDurationInSeconds > 0)
+        {
+            _timerText.text = _gameDurationInSeconds.ToString();
+            yield return new WaitForSeconds(1);
+            _gameDurationInSeconds--;
+        }
+        GameManager.Instance.FinishGame();
     }
     
-    public void ReceiveCatchEvent(PlayerCatchEventArgs value)
+    public void UpdateCatchableCountUI(int catchablesLeft)
     {
-        if (value.IsCaught)
-        {
-            _pickedCatchables++;
-        }
-        _catchablesLeft--;
-        
-        _pickedCatchablesText.text = _pickedCatchables.ToString(); 
-        _catchablesLeftText.text = _catchablesLeft.ToString();
+        _catchablesLeftText.text = catchablesLeft.ToString();
     }
 }

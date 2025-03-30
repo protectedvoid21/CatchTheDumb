@@ -16,6 +16,6 @@ public class PlayerCatchHandler : MonoBehaviour
         string catchableName = collision.gameObject.name;
         Destroy(collision.gameObject);
         
-        GameManager.Instance.CatchCatchable(new PlayerCatchEventArgs(catchableName, true));
+        GameManager.Instance.CatchCatchable();
     }
 }

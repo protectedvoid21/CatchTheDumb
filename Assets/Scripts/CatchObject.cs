@@ -24,7 +24,7 @@ public class CatchObject : MonoBehaviour
         
         if (Vector2.Distance(transform.position, DestinationHole.position) < 0.1f)
         {
-            GameManager.Instance.CatchCatchable(new PlayerCatchEventArgs(name, false));
+            GameManager.Instance.ReturnCatchableToPool();
             Destroy(gameObject);
         }
     }
