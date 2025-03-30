@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     
     private InGameInterface _inGameInterface;
     private CatchablePool _catchablePool;
+    private LevelLoader _levelLoader;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         _inGameInterface = FindAnyObjectByType<InGameInterface>();
         _catchablePool = FindAnyObjectByType<CatchablePool>();
+        _levelLoader = FindAnyObjectByType<LevelLoader>();
     }
 
     public void CatchCatchable()
@@ -61,10 +63,12 @@ public class GameManager : MonoBehaviour
     private void WinGame()
     {
         print("Win!");
+        _inGameInterface.DisplayWinPanel();
     }
     
     private void GameOver()
     {
         print("Game Over!");
+        _inGameInterface.DisplayGameOverPanel();
     }
 }

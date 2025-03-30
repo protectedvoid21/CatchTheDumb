@@ -5,6 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerCatchHandler : MonoBehaviour
 {
+    [SerializeField]
+    private Animator _animator;
+    private static readonly int IsCatching = Animator.StringToHash("IsCatching");
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Catchable"))
@@ -12,9 +16,8 @@ public class PlayerCatchHandler : MonoBehaviour
             return;
         }
         
-        print("Caught an object!");
-        string catchableName = collision.gameObject.name;
         Destroy(collision.gameObject);
+        _animator.SetTrigger(IsCatching);
         
         GameManager.Instance.CatchCatchable();
     }

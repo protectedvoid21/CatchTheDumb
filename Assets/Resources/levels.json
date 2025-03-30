@@ -1,0 +1,22 @@
+{
+    "Levels": [
+        {
+            "CatchableCount": 5,
+            "TimeLimit": 30,
+            "SpawnInterval": 3,
+            "CatchableSpeed": 2
+        },
+        {
+            "CatchableCount": 10,
+            "TimeLimit": 30,
+            "SpawnInterval": 2,
+            "CatchableSpeed": 3
+        },
+        {
+            "CatchableCount": 15,
+            "TimeLimit": 45,
+            "SpawnInterval": 4,
+            "CatchableSpeed": 5
+        }
+    ]
+}
