@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
     {
         _catchablePool.CatchCatchable();
         _inGameInterface.UpdateCatchableCountUI(_catchablePool.RemainingCatchablesCount);
+        if (IsGameWon())
+        {
+            WinGame();
+        }
     }
     
     public void ReturnCatchableToPool()
@@ -39,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void FinishGame()
     {
-        if (_catchablePool.RemainingCatchablesCount == 0)
+        if (IsGameWon())
         {
             WinGame();
         }
@@ -47,6 +51,11 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    private bool IsGameWon()
+    {
+        return _catchablePool.RemainingCatchablesCount == 0;
     }
 
     private void WinGame()

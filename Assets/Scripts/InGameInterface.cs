@@ -23,9 +23,9 @@ public class InGameInterface : MonoBehaviour
     {
         while (_gameDurationInSeconds > 0)
         {
+            _gameDurationInSeconds--;
             _timerText.text = _gameDurationInSeconds.ToString();
             yield return new WaitForSeconds(1);
-            _gameDurationInSeconds--;
         }
         GameManager.Instance.FinishGame();
     }

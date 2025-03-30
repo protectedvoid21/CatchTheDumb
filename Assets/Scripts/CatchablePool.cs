@@ -34,6 +34,10 @@ public class CatchablePool : MonoBehaviour
             {
                 yield return null;
             }
+            if (_remainingCatchablesCount == 0)
+            {
+                break;
+            }
             _catchablesSpawner.SpawnCatchable();
             _catchablesOutsideCount++;
             
