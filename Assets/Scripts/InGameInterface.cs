@@ -1,24 +1,37 @@
-using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class InGameInterface : MonoBehaviour, IObserver<PlayerCatchEvent>
+public class InGameInterface : MonoBehaviour
 {
-    private int _animalsLeft;
-    private int _animalsCaught;
+    private int _catchablesLeft;
+    private int _pickedCatchables;
+    
+    [SerializeField]
+    private TextMeshProUGUI _catchablesLeftText;
+    [SerializeField]
+    private TextMeshProUGUI _pickedCatchablesText;
 
-    private Dictionary<string, Animal> _removedAnimals;
-        
-    public void OnCompleted() => throw new NotImplementedException();
+    private Dictionary<string, int> _removedCatchables;
 
-    public void OnError(Exception error) => throw new NotImplementedException();
-
-    public void OnNext(PlayerCatchEvent value)
+    private void Start()
+    {
+        var animalSpawner = FindFirstObjectByType<CatchablesSpawner>();
+        _catchablesLeft = animalSpawner.CatchablesToSpawnCount;
+        _pickedCatchables = 0;
+        _catchablesLeftText.text = _catchablesLeft.ToString();
+        _pickedCatchablesText.text = _pickedCatchables.ToString();
+    }
+    
+    public void ReceiveCatchEvent(PlayerCatchEventArgs value)
     {
         if (value.IsCaught)
         {
-            _animalsCaught++;
+            _pickedCatchables++;
         }
-        _animalsLeft--;
+        _catchablesLeft--;
+        
+        _pickedCatchablesText.text = _pickedCatchables.ToString(); 
+        _catchablesLeftText.text = _catchablesLeft.ToString();
     }
 }

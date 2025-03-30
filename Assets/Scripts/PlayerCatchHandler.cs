@@ -1,18 +1,21 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class PlayerCatchHandler : MonoBehaviour
 {
-    private IObserver<object> _observable;
-    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Animal"))
+        if (!collision.gameObject.CompareTag("Catchable"))
         {
             return;
         }
         
-        print("Caught an animal!");
+        print("Caught an object!");
+        string catchableName = collision.gameObject.name;
         Destroy(collision.gameObject);
+        
+        GameManager.Instance.CatchCatchable(new PlayerCatchEventArgs(catchableName, true));
     }
 }
