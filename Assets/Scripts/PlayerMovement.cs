@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField, Min(0)]
     private float _speed;
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
     
     private InputAction _moveAction;
 
@@ -24,5 +26,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 movement = _moveAction.ReadValue<Vector2>();
         transform.Translate(movement * (_speed * Time.deltaTime));
+
+        if (movement.x != 0)
+        {
+            _spriteRenderer.flipX = movement.x < 0;
+        }
     }
 }

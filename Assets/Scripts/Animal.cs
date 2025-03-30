@@ -7,6 +7,11 @@ public class Animal : MonoBehaviour
     [HideInInspector]
     public Transform DestinationHole;
 
+    private void Awake()
+    {
+        gameObject.tag = "Animal";
+    }
+    
     private void Update()
     {
         MoveTowardsHole();
