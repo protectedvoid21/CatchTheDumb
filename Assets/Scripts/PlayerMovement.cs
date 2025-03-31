@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerMovement : MonoBehaviour
 {
     private static readonly int IsMoving = Animator.StringToHash("IsMoving");
@@ -12,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+    [SerializeField]
+    private AudioClip _walkingSound;
+    private AudioSource _audioSource;
+    
+
     private InputAction _moveAction;
 
     private void Awake()
@@ -19,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         var inputSystemActions = new InputSystemActions();
         _moveAction = inputSystemActions.Player.Move;
         _moveAction.Enable();
+        
+        _audioSource = GetComponent<AudioSource>();
         
         if (_animator == null)
         {
@@ -46,10 +54,21 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetBool(IsMoving, true);
             _spriteRenderer.flipX = movement.x < 0;
+            
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.clip = _walkingSound;
+                _audioSource.loop = true;
+                _audioSource.Play();
+            }
         }
         else
         {
             _animator.SetBool(IsMoving, false);
+            if (_audioSource.isPlaying)
+            {
+                _audioSource.Stop();
+            }
         }
     }
 }

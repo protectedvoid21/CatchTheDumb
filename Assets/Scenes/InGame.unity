@@ -4441,7 +4441,7 @@ GameObject:
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: GameController
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: b1b079d053c3d0c41952dadf32a89ffd, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -4928,10 +4928,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1609460336265618948, guid: 04422bbcb9bc56ecda76c2e06c1dcfed, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1819359127864491358, guid: 04422bbcb9bc56ecda76c2e06c1dcfed, type: 3}
       propertyPath: _animator
       value: 
       objectReference: {fileID: 1970992563}
+    - target: {fileID: 1819359127864491358, guid: 04422bbcb9bc56ecda76c2e06c1dcfed, type: 3}
+      propertyPath: _walkingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 95464e8feff8dfecd93c16e1d1a53c40, type: 3}
     - target: {fileID: 2329057857864546584, guid: 04422bbcb9bc56ecda76c2e06c1dcfed, type: 3}
       propertyPath: _animator
       value: 
