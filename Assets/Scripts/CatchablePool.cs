@@ -3,38 +3,40 @@ using UnityEngine;
 
 public class CatchablePool : MonoBehaviour
 {
+    [SerializeField]
     private CatchablesSpawner _catchablesSpawner;
     
-    [SerializeField, Min(0)]
     private float _spawnInterval;
-    [SerializeField, Min(0)]
     private float _spawnIntervalVariance;
 
-    [SerializeField, Min(0)]
-    private int _remainingCatchablesCount;
-    public int RemainingCatchablesCount => _remainingCatchablesCount;
-    
+    public int RemainingCatchablesCount { get; private set; }
+
     private int _catchablesOutsideCount;
-
-    private void Awake()
+    
+    public void Initialize(Level level)
     {
-        _catchablesSpawner = FindAnyObjectByType<CatchablesSpawner>();
-    }
-
-    private void Start()
-    {
+        var catchablesOutside = FindObjectsByType<CatchObject>(FindObjectsSortMode.None);
+        foreach (var catchable in catchablesOutside)
+        {
+            Destroy(catchable.gameObject);
+        }
+        
+        RemainingCatchablesCount = level.CatchableCount;
+        _catchablesOutsideCount = 0;
+        _spawnInterval = level.SpawnInterval;
+        _spawnIntervalVariance = level.SpawnInterval * 0.2f;
         StartCoroutine(SpawnCatchables());
     }
     
     private IEnumerator SpawnCatchables()
     {
-        while (_remainingCatchablesCount > 0)
+        while (RemainingCatchablesCount > 0)
         {
             while (AreAllCatchablesOutside())
             {
                 yield return null;
             }
-            if (_remainingCatchablesCount == 0)
+            if (RemainingCatchablesCount == 0)
             {
                 break;
             }
@@ -47,7 +49,7 @@ public class CatchablePool : MonoBehaviour
     
     private bool AreAllCatchablesOutside()
     {
-        return _catchablesOutsideCount == _remainingCatchablesCount && _remainingCatchablesCount > 0;
+        return _catchablesOutsideCount == RemainingCatchablesCount && RemainingCatchablesCount > 0;
     }
     
     public void ReturnCatchableToPool()
@@ -58,6 +60,6 @@ public class CatchablePool : MonoBehaviour
     public void CatchCatchable()
     {
         _catchablesOutsideCount--;
-        _remainingCatchablesCount--;
+        RemainingCatchablesCount--;
     }
 }

@@ -27,6 +27,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        _moveAction.Disable();
+    }
+
     private void Update()
     {
         Move();

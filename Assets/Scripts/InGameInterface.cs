@@ -8,8 +8,10 @@ public class InGameInterface : MonoBehaviour
     private TextMeshProUGUI _catchablesLeftText;
     [SerializeField]
     private TextMeshProUGUI _timerText;
-    [SerializeField]
-    private int _gameDurationInSeconds;
+
+    [SerializeField] 
+    private TextMeshProUGUI _levelText;
+    
     [SerializeField] 
     private GameObject _pausePanel;
 
@@ -17,14 +19,6 @@ public class InGameInterface : MonoBehaviour
     private GameObject _winPanel;
     [SerializeField]
     private GameObject _gameOverPanel;
-    
-    private void Start()
-    {
-        var catchablePool = FindFirstObjectByType<CatchablePool>();
-        _catchablesLeftText.text = catchablePool.RemainingCatchablesCount.ToString();
-        
-        StartCoroutine(RunTimer());
-    }
     
     private void Update()
     {
@@ -35,22 +29,28 @@ public class InGameInterface : MonoBehaviour
         }
     }
 
-    private IEnumerator RunTimer()
+    public void Initialize(int level)
     {
-        while (_gameDurationInSeconds > 0)
-        {
-            _gameDurationInSeconds--;
-            _timerText.text = _gameDurationInSeconds.ToString();
-            yield return new WaitForSeconds(1);
-        }
-        GameManager.Instance.FinishGame();
+        _levelText.text = level.ToString();
+    }
+
+    public void UpdateTimerUI(int timeLeft)
+    {
+        _timerText.text = timeLeft.ToString();
     }
     
     public void UpdateCatchableCountUI(int catchablesLeft)
     {
         _catchablesLeftText.text = catchablesLeft.ToString();
     }
-
+    
+    public void HideShownPanels()
+    {
+        _pausePanel.SetActive(false);
+        _winPanel.SetActive(false);
+        _gameOverPanel.SetActive(false);
+    }
+    
     public void DisplayGameOverPanel()
     {
         _gameOverPanel.SetActive(true);
